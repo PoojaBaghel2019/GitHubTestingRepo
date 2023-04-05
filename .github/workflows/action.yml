@@ -1,9 +1,6 @@
 name: workflow
 on:
   workflow_dispatch:
-    inputs:
-      env:
-        type: string
 jobs:
   workflow-deploy:
     runs-on: ubuntu-latest
