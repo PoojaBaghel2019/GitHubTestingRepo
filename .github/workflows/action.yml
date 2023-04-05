@@ -1,13 +1,13 @@
 name: workflow
 on:
-  workflow_dispatch:
-    inputs:
-      env:
-        type: string
+  workflow_dispatch:
+    inputs:
+      env:
+        type: string
         required: true
 jobs:
-  workflow-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  workflow-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
