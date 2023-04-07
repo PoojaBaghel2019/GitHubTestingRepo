@@ -4,7 +4,7 @@ on:
    inputs:
      env:
         type: string
-        required: false
+        required: true
 jobs:
   workflow-deploy:
     runs-on: ubuntu-latest
