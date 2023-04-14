@@ -6,12 +6,6 @@ repo: "backend-release-dec"
 status: "INPROGRESS"
 releaseName: "backend-release-dec"
 version: "0.0.1"
-option:
-  createMissingRepo: false
-  createMissingBranch: false
-  setDefaultBranch: false
-  ignoreMissingDefaultBranch: false
-  prefixReleaseNameInManifest: false
 accounts:
 - name: "non-prod"
   deployAgentLabel: "linux && deploy-erps-nonp"
