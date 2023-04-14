@@ -1,0 +1,63 @@
+---
+id: "ERPS"
+name: "ERPS Project"
+key: "ERPSREL"
+repo: "backend-release-dec"
+status: "INPROGRESS"
+releaseName: "backend-release-dec"
+version: "0.0.1"
+option:
+  createMissingRepo: false
+  createMissingBranch: false
+  setDefaultBranch: false
+  ignoreMissingDefaultBranch: false
+  prefixReleaseNameInManifest: false
+accounts:
+- name: "non-prod"
+  deployAgentLabel: "linux && deploy-erps-nonp"
+  packerAgentLabel: "linux && docker-erps-nonp"
+  assumeRoleDetailsId: "linux-erps-nonp-cross-account-details"
+  environments:
+  - name: "dev"
+    skipJobs: false
+  - name: "qa"
+    skipJobs: false
+  - name: "stage"
+    skipJobs: false
+  skipAmiJobs: false
+  skipEcsJobs: false
+- name: "prod"
+  deployAgentLabel: "linux && deploy-erps-prod"
+  packerAgentLabel: "linux && docker-erps-prod"
+  assumeRoleDetailsId: "linux-erps-prod-cross-account-details"
+  environments:
+  - name: "prod"
+    skipJobs: false
+  skipAmiJobs: false
+  skipEcsJobs: false
+stages:
+- type: "ACCOUNT"
+  description: "Account Level Jobs"
+  projects:
+  - key: "ERPSPDJ"
+    repos:
+    - name: "custom-resources"
+      runOrder: 4
+      artifacts:
+      - key: "TCR"
+        repo: "acm"
+        version: "latest"
+        snapshot: false
+- type: "AMI"
+  description: "AMI Baking Jobs"
+  projects:
+  - key: "ERPSABJ"
+    artifacts:
+    - key: "TPT"
+      repo: "thcp-aws-ebs-linux"
+      version: "latest"
+      snapshot: false
+    repos:
+    - name: "aws-linux-bastion"
+      runOrder: 1
+
