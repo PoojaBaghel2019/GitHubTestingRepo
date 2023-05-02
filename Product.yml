@@ -3,9 +3,15 @@ id: "ERPS"
 name: "ERPS Project"
 key: "ERPSREL"
 repo: "backend-release-dec"
-status: "DEV-COMPLETE"
+status: "FINALIZED"
 releaseName: "backend-release-dec"
 version: "0.0.1"
+option:
+  createMissingRepo: false
+  createMissingBranch: false
+  setDefaultBranch: false
+  ignoreMissingDefaultBranch: false
+  prefixReleaseNameInManifest: false
 accounts:
 - name: "non-prod"
   deployAgentLabel: "linux && deploy-erps-nonp"
@@ -20,7 +26,6 @@ accounts:
     skipJobs: false
   skipAmiJobs: false
   skipEcsJobs: false
-  skipJobs: false
 - name: "prod"
   deployAgentLabel: "linux && deploy-erps-prod"
   packerAgentLabel: "linux && docker-erps-prod"
@@ -30,7 +35,6 @@ accounts:
     skipJobs: false
   skipAmiJobs: false
   skipEcsJobs: false
-  skipJobs: false
 stages:
 - type: "ACCOUNT"
   description: "Account Level Jobs"
@@ -44,8 +48,6 @@ stages:
         repo: "thcp-account-s3-access-log"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
     - name: "artifact-s3-bucket"
       runOrder: 3
       artifacts:
@@ -53,23 +55,73 @@ stages:
         repo: "artifact-s3-bucket"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
     - name: "custom-resources"
       runOrder: 4
       artifacts:
+      # - key: "TCR"
+      #   repo: "macie"
+      #   version: "latest"
+      #   snapshot: false
       - key: "TCR"
         repo: "acm"
         version: "latest"
         snapshot: false
+      # - key: "TCR"
+      #   repo: "alb"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "batch"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "cloudfront"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "ec2"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "ecr"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "elastic-search"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "keypair"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "kms"
+      #   version: "latest"
+      #   snapshot: false
       - key: "TCR"
         repo: "parameter"
         version: "latest"
         snapshot: false
+      # - key: "TCR"
+      #   repo: "rds"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "route53"
+      #   version: "latest"
+      #   snapshot: false
       - key: "TCR"
         repo: "securityhub"
         version: "latest"
         snapshot: false
+      # - key: "TCR"
+      #   repo: "ses"
+      #   version: "latest"
+      #   snapshot: false
+      # - key: "TCR"
+      #   repo: "string"
+      #   version: "latest"
+      #   snapshot: false
       - key: "TCR"
         repo: "vpc"
         version: "latest"
@@ -82,8 +134,10 @@ stages:
         repo: "waf"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
+      # - key: "TCR"
+      #   repo: "cognito"
+      #   version: "latest"
+      #   snapshot: false
     - name: "ecr-repositories"
       runOrder: 5
       artifacts:
@@ -91,145 +145,1072 @@ stages:
         repo: "ecr-repository"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    artifacts: null
 - type: "AMI"
   description: "AMI Baking Jobs"
   projects:
   - key: "ERPSABJ"
-    repos:
-    - name: "aws-linux-bastion"
-      runOrder: 1
-      artifacts: null
-      properties: null
-      dependsOn: []
     artifacts:
     - key: "TPT"
       repo: "thcp-aws-ebs-linux"
       version: "latest"
       snapshot: false
+    repos:
+    - name: "aws-linux-bastion"
+      runOrder: 1
 - type: "ECS"
   description: "ECS Baking Jobs"
   projects:
   - key: "ERPSEBJ"
-    repos:
-    - name: "aws-linux-app-account-validation-api"
-      runOrder: 1
-      artifacts: null
-      properties:
-        artifact_version: "0.0.2"
-      dependsOn: []
-    - name: "aws-linux-app-erps-api"
-      runOrder: 1
-      artifacts: null
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn: []
-    - name: "aws-linux-app-file-reader-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn: []
-    - name: "aws-linux-erps-liquibase"
-      runOrder: 1
-      artifacts: null
-      properties:
-        artifact_version: "0.1.15"
-      dependsOn: []
-    - name: "aws-linux-app-batch-api"
-      runOrder: 1
-      artifacts: null
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn: []
-    - name: "aws-linux-app-fi-billing-report-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "0.0.3"
-      dependsOn: []
-    - name: "aws-linux-app-email-router-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "0.1.3"
-      dependsOn: []
-    - name: "aws-linux-app-eod2-cleanup-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "0.0.3"
-      dependsOn: []
-    - name: "aws-linux-app-file-router-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "0.0.5"
-      dependsOn: []
-    - name: "aws-linux-app-payment-advice-report-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn: []
-    - name: "aws-linux-app-daily-balance-transfers-report-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "0.0.3"
-      dependsOn: []
-    - name: "aws-linux-app-daily-eft-settlement-cpa"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "1.0.3"
-      dependsOn: []
-    - name: "aws-linux-app-daily-stats-loader-batch"
-      runOrder: 2
-      artifacts: null
-      properties:
-        artifact_version: "1.0.2"
-      dependsOn: []
-    - name: "aws-linux-app-load-history-from-payment-batch"
-      runOrder: 3
-      artifacts: null
-      properties:
-        artifact_version: "1.0.2"
-      dependsOn: []
-    - name: "aws-linux-app-monthly-billing-volume-report-batch"
-      runOrder: 3
-      artifacts: null
-      properties:
-        artifact_version: "0.2.3"
-      dependsOn: []
-    - name: "aws-linux-app-monthly-merchant-reports-batch"
-      runOrder: 3
-      artifacts: null
-      properties:
-        artifact_version: "1.0.3"
-      dependsOn: []
-    - name: "aws-linux-datadog-agent"
-      runOrder: 3
-      artifacts: null
-      properties:
-        artifact_version: "latest"
-      dependsOn: []
-    - name: "aws-linux-xray-image"
-      runOrder: 3
-      artifacts: null
-      properties:
-        artifact_version: "latest"
-      dependsOn: []
     artifacts:
     - key: "TPT"
       repo: "thcp-aws-ecs-linux"
       version: "latest"
       snapshot: false
+    repos:
+    - name: "aws-linux-app-account-validation-api"
+      runOrder: 1
+      properties:
+        artifact_version: "0.0.2"
+    - name: "aws-linux-app-erps-api"
+      runOrder: 1
+      properties:
+        artifact_version: "0.0.4"
+    - name: "aws-linux-app-file-reader-batch"
+      runOrder: 1
+      properties:
+        artifact_version: "0.0.4"
+    - name: "aws-linux-erps-liquibase"
+      runOrder: 1
+      properties:
+        artifact_version: "0.1.15"
+    - name: "aws-linux-app-batch-api"
+      runOrder: 1
+      properties:
+        artifact_version: "0.0.4"
+    - name: "aws-linux-app-fi-billing-report-batch"
+      runOrder: 2
+      properties:
+        artifact_version: "0.0.3"
+    - name: "aws-linux-app-email-router-batch"
+      runOrder: 2
+      properties:
+        artifact_version: "0.1.3"
+    - name: "aws-linux-app-eod2-cleanup-batch"
+      runOrder: 2
+      properties:
+        artifact_version: "0.0.3"
+    - name: "aws-linux-app-file-router-batch"
+      runOrder: 2
+      properties:
+        artifact_version: "0.0.5"
+    - name: "aws-linux-app-payment-advice-report-batch"
+      runOrder: 2
+      properties:
+        artifact_version: "0.0.4"
+    - name: "aws-linux-app-daily-balance-transfers-report-batch"
+      runOrder: 2
+      properties:
+        artifact_version: "0.0.3"
+    - name: "aws-linux-app-daily-eft-settlement-cpa"
+      runOrder: 2
+      properties:
+        artifact_version: "1.0.3"
+    - name: "aws-linux-app-daily-stats-loader-batch"
+      runOrder: 2
+      properties:
+        artifact_version: "1.0.2"
+    - name: "aws-linux-app-load-history-from-payment-batch"
+      runOrder: 3
+      properties:
+        artifact_version: "1.0.2"
+    - name: "aws-linux-app-monthly-billing-volume-report-batch"
+      runOrder: 3
+      properties:
+        artifact_version: "0.2.3"
+    - name: "aws-linux-app-monthly-merchant-reports-batch"
+      runOrder: 3
+      properties:
+        artifact_version: "1.0.3"
+    - name: "aws-linux-datadog-agent"
+      runOrder: 3
+      properties:
+        artifact_version: "latest"
+    - name: "aws-linux-xray-image"
+      runOrder: 3
+      properties:
+        artifact_version: "latest"
 - type: "ENVIRONMENT"
   description: "Environment Level Jobs"
   projects:
   - key: "ERPSPDJ"
-    repos: []
-    artifacts: null
+    repos:
+    - name: "secure-vpc"
+      runOrder: 1
+      artifacts:
+      - key: "ERPSIC"
+        repo: "secure-vpc"
+        version: "latest"
+        snapshot: false
+    - name: "register-domain"
+      runOrder: 1
+      artifacts:
+      - key: "ERPSIC"
+        repo: "register-domain"
+        version: "latest"
+        snapshot: false
+    - name: "batch-output-s3-bucket"
+      runOrder: 1
+      artifacts:
+      - key: "ERPSIC"
+        repo: "batch-output-s3-bucket"
+        version: "latest"
+        snapshot: false
+    - name: "batch-input-s3-bucket"
+      runOrder: 1
+      artifacts:
+      - key: "ERPSIC"
+        repo: "batch-output-s3-bucket"
+        version: "latest"
+        snapshot: false
+    - name: "test-output-s3-bucket"
+      runOrder: 1
+      artifacts:
+      - key: "ERPSIC"
+        repo: "test-output-s3-bucket"
+        version: "latest"
+        snapshot: false
+    - name: "jvm-logs-s3-bucket"
+      runOrder: 1
+      artifacts:
+      - key: "ERPSIC"
+        repo: "jvm-logs-s3-bucket"
+        version: "latest"
+        snapshot: false
+    - name: "web-react-s3-bucket"
+      runOrder: 1
+      artifacts:
+      - key: "ERPSIC"
+        repo: "static-content-s3-bucket"
+        version: "latest"
+        snapshot: false
+    - name: "dc-gateway-vpc-peering"
+      runOrder: 2
+      artifacts:
+      - key: "ERPSIC"
+        repo: "dc-gateway"
+        version: "latest"
+        snapshot: false
+    - name: "security-group"
+      runOrder: 2
+      artifacts:
+      - key: "ERPSIC"
+        repo: "security-group"
+        version: "latest"
+        snapshot: false
+    - name: "web-app-load-balancers"
+      runOrder: 2
+      artifacts:
+      - key: "ERPSIC"
+        repo: "loadbalancers"
+        version: "latest"
+        snapshot: false
+    - name: "waf-cloudfront"
+      runOrder: 2
+      artifacts:
+      - key: "ERPSIC"
+        repo: "waf"
+        version: "latest"
+        snapshot: false
+    - name: "private-hosted-zones"
+      runOrder: 2
+      artifacts:
+      - key: "ERPSIC"
+        repo: "private-hosted-zones"
+        version: "latest"
+        snapshot: false
+    - name: "global-accelerator"
+      runOrder: 3
+      artifacts:
+      - key: "ERPSIC"
+        repo: "global-accelerator"
+        version: "latest"
+        snapshot: false
+    - name: "waf"
+      runOrder: 3
+      artifacts:
+      - key: "ERPSIC"
+        repo: "waf"
+        version: "latest"
+        snapshot: false
+    - name: "web-react-deploy"
+      runOrder: 3
+      properties:
+        web_app_erps_version: "0.1.4"
+    - name: "web-react-cloudfront"
+      runOrder: 3
+      artifacts:
+      - key: "ERPSIC"
+        repo: "cloudfront"
+        version: "latest"
+        snapshot: false
+    - name: "ses-s3-bucket"
+      runOrder: 3
+      artifacts:
+      - key: "ERPSIC"
+        repo: "ses-s3-bucket"
+        version: "latest"
+        snapshot: false
+    - name: "elasticache-redis"
+      runOrder: 4
+      artifacts:
+      - key: "ERPSIC"
+        repo: "elasticache-redis"
+        version: "latest"
+        snapshot: false
+    - name: "rds-aurora-mysql"
+      runOrder: 4
+      artifacts:
+      - key: "ERPSIC"
+        repo: "rds-aurora-mysql"
+        version: "latest"
+        snapshot: false
+    - name: "bastion"
+      runOrder: 4
+      dependsOn:
+      - key: "ERPSABJ"
+        repo: "aws-linux-bastion"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "bastion"
+        version: "latest"
+        snapshot: false
+    - name: "ses"
+      runOrder: 4
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "ses-s3-bucket"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "ses"
+        version: "latest"
+        snapshot: false
+    - name: "dynamodb-tables"
+      runOrder: 5
+      artifacts:
+      - key: "ERPSIC"
+        repo: "dynamodb-tables"
+        version: "latest"
+        snapshot: false
+    - name: "fargate-cluster"
+      runOrder: 5
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-cluster"
+        version: "latest"
+        snapshot: false
+    - name: "common-lambda"
+      runOrder: 5
+      artifacts:
+      - key: "ERPSIC"
+        repo: "common-lambda"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.1.3"
+    - name: "erps-liquibase-fargate-task"
+      runOrder: 5
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-erps-liquibase"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "liquibase-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "erps-api-fargate-service"
+      runOrder: 6
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-erps-api"
+      - key: "ERPSPDJ"
+        repo: "web-app-load-balancers"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-service-api"
+        version: "latest"
+        snapshot: false
+    - name: "account-validation-api-fargate-service"
+      runOrder: 6
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-account-validation-api"
+      - key: "ERPSPDJ"
+        repo: "web-app-load-balancers"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-service-api"
+        version: "latest"
+        snapshot: false
+    - name: "batch-api-fargate-service"
+      runOrder: 6
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-batch-api"
+      - key: "ERPSPDJ"
+        repo: "web-app-load-balancers"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-service-api"
+        version: "latest"
+        snapshot: false
+    - name: "s3-email-notification"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "s3-email-notification"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.1.1"
+    - name: "account-decryption"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "account-decryption"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "batch-executor"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "batch-executor"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.3"
+    - name: "biller-billing-model-audit-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-billing-model-audit-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "biller-group-audit-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-group-audit-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "daily-merchant-settlement-reports"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-merchant-settlement-reports"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.6"
+    - name: "biller-non-volatile-audit-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-non-volatile-audit-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.5"
+    - name: "daily-delivered-data-summary-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-delivered-data-summary-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.5"
+    - name: "daily-gs06-numbers-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-gs06-numbers-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.3"
+    - name: "daily-payment-exceptions-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-payment-exceptions-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.1.3"
+    - name: "daily-stats-rollover"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-stats-rollover"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "erps-eod2-reconciliation"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "erps-eod2-reconciliation"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "hsbc-cra-daily-edi"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "hsbc-cra-daily-edi"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "merchant-payment-count-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "merchant-payment-count-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "monthly-payment-summary-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "monthly-payment-summary-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.6"
+    - name: "daily-settlement-summary-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-settlement-summary-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.6"    
+    - name: "biller-daily-settlement"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-daily-settlement"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "update-biller-filenumber"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "update-biller-filenumber"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "update-rejected-payments"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "update-rejected-payments"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "update-batch-operation"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "update-batch-operation"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.3"
+    - name: "save-report-location"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "save-report-location"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.3"
+    - name: "xml-converter-service"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "xml-converter-service"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "biller-refresh-report"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-refresh-report"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.3"
+    - name: "file-types-loader"
+      runOrder: 7
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+    - name: "file-reader-batch-fargate-task"
+      runOrder: 8
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-file-reader-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-reader-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "fi-billing-report-batch-fargate-task"
+      runOrder: 8 
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-fi-billing-report-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fi-billing-report-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "payment-advice-report-batch-fargate-batch"
+      runOrder: 8 
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-payment-advice-report-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "payment-advice-report-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "daily-balance-transfers-report-fargate-task"
+      runOrder: 8 
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-daily-balance-transfers-report-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-balance-transfers-report-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "daily-eft-settlement-cpa-fargate-task"
+      runOrder: 8
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-daily-eft-settlement-cpa"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "daily-stats-loader-fargate-task"
+      runOrder: 8 
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-daily-stats-loader-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-stats-loader-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "load-history-from-payment-fargate-task"
+      runOrder: 8 
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-load-history-from-payment-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "load-history-from-payment-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "monthly-billing-volume-report-fargate-task"
+      runOrder: 8
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-monthly-billing-volume-report-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "monthly-merchant-reports-fargate-task"
+      runOrder: 8
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-monthly-merchant-reports-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "file-router-fargate-task"
+      runOrder: 8
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-file-router-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-router-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "email-router-batch-fargate-task"
+      runOrder: 8
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-email-router-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "email-router-batch-fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "eod2-cleanup-fargate-task"
+      runOrder: 8
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-eod2-cleanup-batch"
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-task"
+        version: "latest"
+        snapshot: false
+    - name: "file-reader-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-reader-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "fi-billing-report-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fi-billing-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "payment-advice-report-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "payment-advice-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-balance-transfers-report-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-balance-transfers-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-merchant-settlement-reports-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-merchant-settlement-reports-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-stats-loader-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-stats-loader-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "load-history-from-payment-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "load-history-from-payment-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "monthly-billing-volume-report-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "monthly-billing-volume-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "monthly-merchant-reports-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "monthly-merchant-reports-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "xml-converter-service-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "xml-converter-service-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "save-report-location-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "save-report-location-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "biller-refresh-report-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-refresh-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "update-batch-operation-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "update-batch-operation-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "eod2-cleanup-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "eod2-cleanup-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "file-router-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-router-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "email-router-workflow"
+      runOrder: 9
+      artifacts:
+      - key: "ERPSIC"
+        repo: "email-router-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "bmo-corporate-stat-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "bmo-corporate-stat-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "pcb-stat-reports-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "pcb-stat-reports-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "payment-advice-report-batch-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "payment-advice-report-batch-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-eft-settlement-cpa-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-eft-settlement-cpa-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "biller-billing-model-audit-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-billing-model-audit-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "biller-group-audit-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-group-audit-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "biller-non-volatile-audit-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-non-volatile-audit-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-delivered-data-summary-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-delivered-data-summary-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-gs06-numbers-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-gs06-numbers-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-payment-exceptions-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-payment-exceptions-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-settlement-summary-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-settlement-summary-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "daily-stats-rollover-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "daily-stats-rollover-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "erps-eod2-reconciliation-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "erps-eod2-reconciliation-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "hsbc-cra-daily-edi-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "hsbc-cra-daily-edi-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "merchant-payment-count-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "merchant-payment-count-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "monthly-payment-summary-report-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "monthly-payment-summary-report-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "biller-daily-settlement-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "biller-daily-settlement-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "update-biller-filenumber-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "update-biller-filenumber-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "update-rejected-payments-workflow"
+      runOrder: 10
+      artifacts:
+      - key: "ERPSIC"
+        repo: "update-rejected-payments-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "hsbc-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "hsbc-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "bns-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "bns-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "boa-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "boa-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "mcu-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "mcu-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "pcb-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "pcb-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "tfx-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "tfx-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "cibc-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "cibc-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "citi-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "citi-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "jpmc-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "jpmc-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "motus-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "motus-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "manulife-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "manulife-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "tangerine-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "tangerine-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "bmo-retail-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "bmo-retail-eod2-workflow"
+        version: "latest"
+        snapshot: false
+    - name: "bmo-corporate-eod2-workflow"
+      runOrder: 11
+      artifacts:
+      - key: "ERPSIC"
+        repo: "bmo-corporate-eod2-workflow"
+        version: "latest"
+        snapshot: false
