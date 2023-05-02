@@ -3,7 +3,7 @@ id: "ERPS"
 name: "ERPS Project"
 key: "ERPSREL"
 repo: "backend-release-dec"
-status: "DEV-COMPLETE"
+status: "STAGE-COMPLETE"
 releaseName: "backend-release-dec"
 version: "0.0.1"
 accounts:
