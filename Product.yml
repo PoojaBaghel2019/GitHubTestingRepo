@@ -232,547 +232,15 @@ stages:
   projects:
   - key: "ERPSPDJ"
     repos:
-    - name: "secure-vpc"
-      runOrder: 1
-      artifacts:
-      - key: "ERPSIC"
-        repo: "secure-vpc"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "register-domain"
-      runOrder: 1
-      artifacts:
-      - key: "ERPSIC"
-        repo: "register-domain"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "batch-output-s3-bucket"
-      runOrder: 1
-      artifacts:
-      - key: "ERPSIC"
-        repo: "batch-output-s3-bucket"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "batch-input-s3-bucket"
-      runOrder: 1
-      artifacts:
-      - key: "ERPSIC"
-        repo: "batch-output-s3-bucket"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "test-output-s3-bucket"
-      runOrder: 1
-      artifacts:
-      - key: "ERPSIC"
-        repo: "test-output-s3-bucket"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "jvm-logs-s3-bucket"
-      runOrder: 1
-      artifacts:
-      - key: "ERPSIC"
-        repo: "jvm-logs-s3-bucket"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "web-react-s3-bucket"
-      runOrder: 1
-      artifacts:
-      - key: "ERPSIC"
-        repo: "static-content-s3-bucket"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "dc-gateway-vpc-peering"
-      runOrder: 2
-      artifacts:
-      - key: "ERPSIC"
-        repo: "dc-gateway"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "security-group"
-      runOrder: 2
-      artifacts:
-      - key: "ERPSIC"
-        repo: "security-group"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "web-app-load-balancers"
-      runOrder: 2
-      artifacts:
-      - key: "ERPSIC"
-        repo: "loadbalancers"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "waf-cloudfront"
-      runOrder: 2
-      artifacts:
-      - key: "ERPSIC"
-        repo: "waf"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "private-hosted-zones"
-      runOrder: 2
-      artifacts:
-      - key: "ERPSIC"
-        repo: "private-hosted-zones"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "global-accelerator"
-      runOrder: 3
-      artifacts:
-      - key: "ERPSIC"
-        repo: "global-accelerator"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "waf"
-      runOrder: 3
-      artifacts:
-      - key: "ERPSIC"
-        repo: "waf"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "web-react-deploy"
-      runOrder: 3
-      artifacts: null
-      properties:
-        web_app_erps_version: "0.1.4"
-      dependsOn: []
-    - name: "web-react-cloudfront"
-      runOrder: 3
-      artifacts:
-      - key: "ERPSIC"
-        repo: "cloudfront"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "ses-s3-bucket"
-      runOrder: 3
-      artifacts:
-      - key: "ERPSIC"
-        repo: "ses-s3-bucket"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "elasticache-redis"
-      runOrder: 4
-      artifacts:
-      - key: "ERPSIC"
-        repo: "elasticache-redis"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "rds-aurora-mysql"
-      runOrder: 4
-      artifacts:
-      - key: "ERPSIC"
-        repo: "rds-aurora-mysql"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "bastion"
-      runOrder: 4
-      artifacts:
-      - key: "ERPSIC"
-        repo: "bastion"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn:
-      - key: "ERPSABJ"
-        repo: "aws-linux-bastion"
-    - name: "ses"
-      runOrder: 4
-      artifacts:
-      - key: "ERPSIC"
-        repo: "ses"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "ses-s3-bucket"
-    - name: "dynamodb-tables"
-      runOrder: 5
-      artifacts:
-      - key: "ERPSIC"
-        repo: "dynamodb-tables"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "fargate-cluster"
-      runOrder: 5
-      artifacts:
-      - key: "ERPSIC"
-        repo: "fargate-cluster"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "common-lambda"
-      runOrder: 5
-      artifacts:
-      - key: "ERPSIC"
-        repo: "common-lambda"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.1.3"
-      dependsOn: []
-    - name: "erps-liquibase-fargate-task"
-      runOrder: 5
-      artifacts:
-      - key: "ERPSIC"
-        repo: "liquibase-fargate-task"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-erps-liquibase"
-    - name: "erps-api-fargate-service"
-      runOrder: 6
-      artifacts:
-      - key: "ERPSIC"
-        repo: "fargate-service-api"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-erps-api"
-      - key: "ERPSPDJ"
-        repo: "web-app-load-balancers"
-    - name: "account-validation-api-fargate-service"
-      runOrder: 6
-      artifacts:
-      - key: "ERPSIC"
-        repo: "fargate-service-api"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-account-validation-api"
-      - key: "ERPSPDJ"
-        repo: "web-app-load-balancers"
-    - name: "batch-api-fargate-service"
-      runOrder: 6
-      artifacts:
-      - key: "ERPSIC"
-        repo: "fargate-service-api"
-        version: "latest"
-        snapshot: false
-      properties: null
-      dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-batch-api"
-      - key: "ERPSPDJ"
-        repo: "web-app-load-balancers"
-    - name: "s3-email-notification"
+    - name: "file-types-loader"
       runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "s3-email-notification"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.1.1"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "account-decryption"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "account-decryption"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "batch-executor"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "batch-executor"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.3"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "biller-billing-model-audit-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "biller-billing-model-audit-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "biller-group-audit-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "biller-group-audit-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "daily-merchant-settlement-reports"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "daily-merchant-settlement-reports"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.6"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "biller-non-volatile-audit-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "biller-non-volatile-audit-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.5"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "daily-delivered-data-summary-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "daily-delivered-data-summary-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.5"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "daily-gs06-numbers-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "daily-gs06-numbers-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.3"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "daily-payment-exceptions-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "daily-payment-exceptions-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.1.3"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "daily-stats-rollover"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "daily-stats-rollover"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "erps-eod2-reconciliation"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "erps-eod2-reconciliation"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "hsbc-cra-daily-edi"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "hsbc-cra-daily-edi"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "merchant-payment-count-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "merchant-payment-count-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "monthly-payment-summary-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "monthly-payment-summary-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.6"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "daily-settlement-summary-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "daily-settlement-summary-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.6"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "biller-daily-settlement"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "biller-daily-settlement"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "update-biller-filenumber"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "update-biller-filenumber"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "update-rejected-payments"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "update-rejected-payments"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "update-batch-operation"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "update-batch-operation"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.3"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "save-report-location"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "save-report-location"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.3"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "xml-converter-service"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "xml-converter-service"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.4"
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
-    - name: "biller-refresh-report"
-      runOrder: 7
-      artifacts:
-      - key: "ERPSIC"
-        repo: "biller-refresh-report"
-        version: "latest"
-        snapshot: false
-      properties:
-        artifact_version: "0.0.3"
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
@@ -788,577 +256,1324 @@ stages:
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
-    - name: "file-reader-batch-fargate-task"
-      runOrder: 8
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "file-reader-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-file-reader-batch"
-    - name: "fi-billing-report-batch-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "fi-billing-report-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-fi-billing-report-batch"
-    - name: "payment-advice-report-batch-fargate-batch"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "payment-advice-report-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-payment-advice-report-batch"
-    - name: "daily-balance-transfers-report-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-balance-transfers-report-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-daily-balance-transfers-report-batch"
-    - name: "daily-eft-settlement-cpa-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-daily-eft-settlement-cpa"
-    - name: "daily-stats-loader-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-stats-loader-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-daily-stats-loader-batch"
-    - name: "load-history-from-payment-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "load-history-from-payment-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-load-history-from-payment-batch"
-    - name: "monthly-billing-volume-report-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-monthly-billing-volume-report-batch"
-    - name: "monthly-merchant-reports-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-monthly-merchant-reports-batch"
-    - name: "file-router-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "file-router-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-file-router-batch"
-    - name: "email-router-batch-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "email-router-batch-fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-email-router-batch"
-    - name: "eod2-cleanup-fargate-task"
-      runOrder: 8
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "fargate-task"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
+      properties:
+        artifact_version: "0.0.4"
       dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-eod2-cleanup-batch"
-    - name: "file-reader-workflow"
-      runOrder: 9
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "file-reader-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "fi-billing-report-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "fi-billing-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "payment-advice-report-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "payment-advice-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-balance-transfers-report-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-balance-transfers-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-merchant-settlement-reports-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-merchant-settlement-reports-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-stats-loader-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-stats-loader-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "load-history-from-payment-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "load-history-from-payment-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "monthly-billing-volume-report-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "monthly-billing-volume-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "monthly-merchant-reports-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "monthly-merchant-reports-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "xml-converter-service-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "xml-converter-service-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "save-report-location-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "save-report-location-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "biller-refresh-report-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "biller-refresh-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "update-batch-operation-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "update-batch-operation-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "eod2-cleanup-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "eod2-cleanup-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "file-router-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "file-router-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "email-router-workflow"
-      runOrder: 9
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "email-router-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "bmo-corporate-stat-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "bmo-corporate-stat-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "pcb-stat-reports-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "pcb-stat-reports-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "payment-advice-report-batch-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "payment-advice-report-batch-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-eft-settlement-cpa-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-eft-settlement-cpa-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "biller-billing-model-audit-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "biller-billing-model-audit-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "biller-group-audit-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "biller-group-audit-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "biller-non-volatile-audit-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "biller-non-volatile-audit-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-delivered-data-summary-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-delivered-data-summary-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-gs06-numbers-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-gs06-numbers-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-payment-exceptions-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-payment-exceptions-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-settlement-summary-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-settlement-summary-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "daily-stats-rollover-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "daily-stats-rollover-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "erps-eod2-reconciliation-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "erps-eod2-reconciliation-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "hsbc-cra-daily-edi-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "hsbc-cra-daily-edi-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "merchant-payment-count-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "merchant-payment-count-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "monthly-payment-summary-report-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "monthly-payment-summary-report-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "biller-daily-settlement-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "biller-daily-settlement-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "update-biller-filenumber-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "update-biller-filenumber-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "update-rejected-payments-workflow"
-      runOrder: 10
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "update-rejected-payments-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "hsbc-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "hsbc-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "bns-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "bns-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "boa-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "boa-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "mcu-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "mcu-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "pcb-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "pcb-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "tfx-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "tfx-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "cibc-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "cibc-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "citi-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "citi-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "jpmc-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "jpmc-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "motus-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "motus-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "manulife-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "manulife-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "tangerine-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "tangerine-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "bmo-retail-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "bmo-retail-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
-    - name: "bmo-corporate-eod2-workflow"
-      runOrder: 11
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
-        repo: "bmo-corporate-eod2-workflow"
+        repo: "file-types-loader"
         version: "latest"
         snapshot: false
-      properties: null
-      dependsOn: []
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
+      artifacts:
+      - key: "ERPSIC"
+        repo: "file-types-loader"
+        version: "latest"
+        snapshot: false
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
     artifacts: null
