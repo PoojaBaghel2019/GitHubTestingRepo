@@ -3,7 +3,7 @@ id: "ERPS"
 name: "ERPS Project"
 key: "ERPSREL"
 repo: "backend-release-dec"
-status: "FINALIZED"
+status: "DEV-COMPLETE"
 releaseName: "backend-release-dec"
 version: "0.0.1"
 accounts:
@@ -20,6 +20,7 @@ accounts:
     skipJobs: false
   skipAmiJobs: false
   skipEcsJobs: false
+  skipJobs: false
 - name: "prod"
   deployAgentLabel: "linux && deploy-erps-prod"
   packerAgentLabel: "linux && docker-erps-prod"
@@ -29,6 +30,7 @@ accounts:
     skipJobs: false
   skipAmiJobs: false
   skipEcsJobs: false
+  skipJobs: false
 stages:
 - type: "ACCOUNT"
   description: "Account Level Jobs"
@@ -42,6 +44,8 @@ stages:
         repo: "thcp-account-s3-access-log"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "artifact-s3-bucket"
       runOrder: 3
       artifacts:
@@ -49,73 +53,23 @@ stages:
         repo: "artifact-s3-bucket"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "custom-resources"
       runOrder: 4
       artifacts:
-      # - key: "TCR"
-      #   repo: "macie"
-      #   version: "latest"
-      #   snapshot: false
       - key: "TCR"
         repo: "acm"
         version: "latest"
         snapshot: false
-      # - key: "TCR"
-      #   repo: "alb"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "batch"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "cloudfront"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "ec2"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "ecr"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "elastic-search"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "keypair"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "kms"
-      #   version: "latest"
-      #   snapshot: false
       - key: "TCR"
         repo: "parameter"
         version: "latest"
         snapshot: false
-      # - key: "TCR"
-      #   repo: "rds"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "route53"
-      #   version: "latest"
-      #   snapshot: false
       - key: "TCR"
         repo: "securityhub"
         version: "latest"
         snapshot: false
-      # - key: "TCR"
-      #   repo: "ses"
-      #   version: "latest"
-      #   snapshot: false
-      # - key: "TCR"
-      #   repo: "string"
-      #   version: "latest"
-      #   snapshot: false
       - key: "TCR"
         repo: "vpc"
         version: "latest"
@@ -128,10 +82,8 @@ stages:
         repo: "waf"
         version: "latest"
         snapshot: false
-      # - key: "TCR"
-      #   repo: "cognito"
-      #   version: "latest"
-      #   snapshot: false
+      properties: null
+      dependsOn: []
     - name: "ecr-repositories"
       runOrder: 5
       artifacts:
@@ -139,100 +91,142 @@ stages:
         repo: "ecr-repository"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
+    artifacts: null
 - type: "AMI"
   description: "AMI Baking Jobs"
   projects:
   - key: "ERPSABJ"
+    repos:
+    - name: "aws-linux-bastion"
+      runOrder: 1
+      artifacts: null
+      properties: null
+      dependsOn: []
     artifacts:
     - key: "TPT"
       repo: "thcp-aws-ebs-linux"
       version: "latest"
       snapshot: false
-    repos:
-    - name: "aws-linux-bastion"
-      runOrder: 1
 - type: "ECS"
   description: "ECS Baking Jobs"
   projects:
   - key: "ERPSEBJ"
+    repos:
+    - name: "aws-linux-app-account-validation-api"
+      runOrder: 1
+      artifacts: null
+      properties:
+        artifact_version: "0.0.2"
+      dependsOn: []
+    - name: "aws-linux-app-erps-api"
+      runOrder: 1
+      artifacts: null
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn: []
+    - name: "aws-linux-app-file-reader-batch"
+      runOrder: 1
+      artifacts: null
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn: []
+    - name: "aws-linux-erps-liquibase"
+      runOrder: 1
+      artifacts: null
+      properties:
+        artifact_version: "0.1.15"
+      dependsOn: []
+    - name: "aws-linux-app-batch-api"
+      runOrder: 1
+      artifacts: null
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn: []
+    - name: "aws-linux-app-fi-billing-report-batch"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "0.0.3"
+      dependsOn: []
+    - name: "aws-linux-app-email-router-batch"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "0.1.3"
+      dependsOn: []
+    - name: "aws-linux-app-eod2-cleanup-batch"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "0.0.3"
+      dependsOn: []
+    - name: "aws-linux-app-file-router-batch"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "0.0.5"
+      dependsOn: []
+    - name: "aws-linux-app-payment-advice-report-batch"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "0.0.4"
+      dependsOn: []
+    - name: "aws-linux-app-daily-balance-transfers-report-batch"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "0.0.3"
+      dependsOn: []
+    - name: "aws-linux-app-daily-eft-settlement-cpa"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "1.0.3"
+      dependsOn: []
+    - name: "aws-linux-app-daily-stats-loader-batch"
+      runOrder: 2
+      artifacts: null
+      properties:
+        artifact_version: "1.0.2"
+      dependsOn: []
+    - name: "aws-linux-app-load-history-from-payment-batch"
+      runOrder: 3
+      artifacts: null
+      properties:
+        artifact_version: "1.0.2"
+      dependsOn: []
+    - name: "aws-linux-app-monthly-billing-volume-report-batch"
+      runOrder: 3
+      artifacts: null
+      properties:
+        artifact_version: "0.2.3"
+      dependsOn: []
+    - name: "aws-linux-app-monthly-merchant-reports-batch"
+      runOrder: 3
+      artifacts: null
+      properties:
+        artifact_version: "1.0.3"
+      dependsOn: []
+    - name: "aws-linux-datadog-agent"
+      runOrder: 3
+      artifacts: null
+      properties:
+        artifact_version: "latest"
+      dependsOn: []
+    - name: "aws-linux-xray-image"
+      runOrder: 3
+      artifacts: null
+      properties:
+        artifact_version: "latest"
+      dependsOn: []
     artifacts:
     - key: "TPT"
       repo: "thcp-aws-ecs-linux"
       version: "latest"
       snapshot: false
-    repos:
-    - name: "aws-linux-app-account-validation-api"
-      runOrder: 1
-      properties:
-        artifact_version: "0.0.2"
-    - name: "aws-linux-app-erps-api"
-      runOrder: 1
-      properties:
-        artifact_version: "0.0.4"
-    - name: "aws-linux-app-file-reader-batch"
-      runOrder: 1
-      properties:
-        artifact_version: "0.0.4"
-    - name: "aws-linux-erps-liquibase"
-      runOrder: 1
-      properties:
-        artifact_version: "0.1.15"
-    - name: "aws-linux-app-batch-api"
-      runOrder: 1
-      properties:
-        artifact_version: "0.0.4"
-    - name: "aws-linux-app-fi-billing-report-batch"
-      runOrder: 2
-      properties:
-        artifact_version: "0.0.3"
-    - name: "aws-linux-app-email-router-batch"
-      runOrder: 2
-      properties:
-        artifact_version: "0.1.3"
-    - name: "aws-linux-app-eod2-cleanup-batch"
-      runOrder: 2
-      properties:
-        artifact_version: "0.0.3"
-    - name: "aws-linux-app-file-router-batch"
-      runOrder: 2
-      properties:
-        artifact_version: "0.0.5"
-    - name: "aws-linux-app-payment-advice-report-batch"
-      runOrder: 2
-      properties:
-        artifact_version: "0.0.4"
-    - name: "aws-linux-app-daily-balance-transfers-report-batch"
-      runOrder: 2
-      properties:
-        artifact_version: "0.0.3"
-    - name: "aws-linux-app-daily-eft-settlement-cpa"
-      runOrder: 2
-      properties:
-        artifact_version: "1.0.3"
-    - name: "aws-linux-app-daily-stats-loader-batch"
-      runOrder: 2
-      properties:
-        artifact_version: "1.0.2"
-    - name: "aws-linux-app-load-history-from-payment-batch"
-      runOrder: 3
-      properties:
-        artifact_version: "1.0.2"
-    - name: "aws-linux-app-monthly-billing-volume-report-batch"
-      runOrder: 3
-      properties:
-        artifact_version: "0.2.3"
-    - name: "aws-linux-app-monthly-merchant-reports-batch"
-      runOrder: 3
-      properties:
-        artifact_version: "1.0.3"
-    - name: "aws-linux-datadog-agent"
-      runOrder: 3
-      properties:
-        artifact_version: "latest"
-    - name: "aws-linux-xray-image"
-      runOrder: 3
-      properties:
-        artifact_version: "latest"
 - type: "ENVIRONMENT"
   description: "Environment Level Jobs"
   projects:
@@ -245,6 +239,8 @@ stages:
         repo: "secure-vpc"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "register-domain"
       runOrder: 1
       artifacts:
@@ -252,6 +248,8 @@ stages:
         repo: "register-domain"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "batch-output-s3-bucket"
       runOrder: 1
       artifacts:
@@ -259,6 +257,8 @@ stages:
         repo: "batch-output-s3-bucket"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "batch-input-s3-bucket"
       runOrder: 1
       artifacts:
@@ -266,6 +266,8 @@ stages:
         repo: "batch-output-s3-bucket"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "test-output-s3-bucket"
       runOrder: 1
       artifacts:
@@ -273,6 +275,8 @@ stages:
         repo: "test-output-s3-bucket"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "jvm-logs-s3-bucket"
       runOrder: 1
       artifacts:
@@ -280,6 +284,8 @@ stages:
         repo: "jvm-logs-s3-bucket"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "web-react-s3-bucket"
       runOrder: 1
       artifacts:
@@ -287,6 +293,8 @@ stages:
         repo: "static-content-s3-bucket"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "dc-gateway-vpc-peering"
       runOrder: 2
       artifacts:
@@ -294,6 +302,8 @@ stages:
         repo: "dc-gateway"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "security-group"
       runOrder: 2
       artifacts:
@@ -301,6 +311,8 @@ stages:
         repo: "security-group"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "web-app-load-balancers"
       runOrder: 2
       artifacts:
@@ -308,6 +320,8 @@ stages:
         repo: "loadbalancers"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "waf-cloudfront"
       runOrder: 2
       artifacts:
@@ -315,6 +329,8 @@ stages:
         repo: "waf"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "private-hosted-zones"
       runOrder: 2
       artifacts:
@@ -322,6 +338,8 @@ stages:
         repo: "private-hosted-zones"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "global-accelerator"
       runOrder: 3
       artifacts:
@@ -329,6 +347,8 @@ stages:
         repo: "global-accelerator"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "waf"
       runOrder: 3
       artifacts:
@@ -336,10 +356,14 @@ stages:
         repo: "waf"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "web-react-deploy"
       runOrder: 3
+      artifacts: null
       properties:
         web_app_erps_version: "0.1.4"
+      dependsOn: []
     - name: "web-react-cloudfront"
       runOrder: 3
       artifacts:
@@ -347,6 +371,8 @@ stages:
         repo: "cloudfront"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "ses-s3-bucket"
       runOrder: 3
       artifacts:
@@ -354,6 +380,8 @@ stages:
         repo: "ses-s3-bucket"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "elasticache-redis"
       runOrder: 4
       artifacts:
@@ -361,6 +389,8 @@ stages:
         repo: "elasticache-redis"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "rds-aurora-mysql"
       runOrder: 4
       artifacts:
@@ -368,26 +398,30 @@ stages:
         repo: "rds-aurora-mysql"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "bastion"
       runOrder: 4
-      dependsOn:
-      - key: "ERPSABJ"
-        repo: "aws-linux-bastion"
       artifacts:
       - key: "ERPSIC"
         repo: "bastion"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn:
+      - key: "ERPSABJ"
+        repo: "aws-linux-bastion"
     - name: "ses"
       runOrder: 4
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "ses-s3-bucket"
       artifacts:
       - key: "ERPSIC"
         repo: "ses"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "ses-s3-bucket"
     - name: "dynamodb-tables"
       runOrder: 5
       artifacts:
@@ -395,6 +429,8 @@ stages:
         repo: "dynamodb-tables"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "fargate-cluster"
       runOrder: 5
       artifacts:
@@ -402,6 +438,8 @@ stages:
         repo: "fargate-cluster"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "common-lambda"
       runOrder: 5
       artifacts:
@@ -411,57 +449,59 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.1.3"
+      dependsOn: []
     - name: "erps-liquibase-fargate-task"
       runOrder: 5
-      dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-erps-liquibase"
       artifacts:
       - key: "ERPSIC"
         repo: "liquibase-fargate-task"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-erps-liquibase"
     - name: "erps-api-fargate-service"
       runOrder: 6
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-service-api"
+        version: "latest"
+        snapshot: false
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
         repo: "aws-linux-app-erps-api"
       - key: "ERPSPDJ"
         repo: "web-app-load-balancers"
+    - name: "account-validation-api-fargate-service"
+      runOrder: 6
       artifacts:
       - key: "ERPSIC"
         repo: "fargate-service-api"
         version: "latest"
         snapshot: false
-    - name: "account-validation-api-fargate-service"
-      runOrder: 6
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
         repo: "aws-linux-app-account-validation-api"
       - key: "ERPSPDJ"
         repo: "web-app-load-balancers"
+    - name: "batch-api-fargate-service"
+      runOrder: 6
       artifacts:
       - key: "ERPSIC"
         repo: "fargate-service-api"
         version: "latest"
         snapshot: false
-    - name: "batch-api-fargate-service"
-      runOrder: 6
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
         repo: "aws-linux-app-batch-api"
       - key: "ERPSPDJ"
         repo: "web-app-load-balancers"
-      artifacts:
-      - key: "ERPSIC"
-        repo: "fargate-service-api"
-        version: "latest"
-        snapshot: false
     - name: "s3-email-notification"
       runOrder: 7
-      dependsOn:
-      - key: "ERPSPDJ"
-        repo: "common-lambda"
       artifacts:
       - key: "ERPSIC"
         repo: "s3-email-notification"
@@ -469,11 +509,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.1.1"
-    - name: "account-decryption"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "account-decryption"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "account-decryption"
@@ -481,11 +521,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "batch-executor"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "batch-executor"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "batch-executor"
@@ -493,11 +533,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.3"
-    - name: "biller-billing-model-audit-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "biller-billing-model-audit-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "biller-billing-model-audit-report"
@@ -505,11 +545,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "biller-group-audit-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "biller-group-audit-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "biller-group-audit-report"
@@ -517,11 +557,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "daily-merchant-settlement-reports"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "daily-merchant-settlement-reports"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "daily-merchant-settlement-reports"
@@ -529,11 +569,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.6"
-    - name: "biller-non-volatile-audit-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "biller-non-volatile-audit-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "biller-non-volatile-audit-report"
@@ -541,11 +581,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.5"
-    - name: "daily-delivered-data-summary-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "daily-delivered-data-summary-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "daily-delivered-data-summary-report"
@@ -553,11 +593,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.5"
-    - name: "daily-gs06-numbers-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "daily-gs06-numbers-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "daily-gs06-numbers-report"
@@ -565,11 +605,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.3"
-    - name: "daily-payment-exceptions-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "daily-payment-exceptions-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "daily-payment-exceptions-report"
@@ -577,11 +617,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.1.3"
-    - name: "daily-stats-rollover"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "daily-stats-rollover"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "daily-stats-rollover"
@@ -589,11 +629,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "erps-eod2-reconciliation"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "erps-eod2-reconciliation"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "erps-eod2-reconciliation"
@@ -601,11 +641,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "hsbc-cra-daily-edi"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "hsbc-cra-daily-edi"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "hsbc-cra-daily-edi"
@@ -613,11 +653,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "merchant-payment-count-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "merchant-payment-count-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "merchant-payment-count-report"
@@ -625,11 +665,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "monthly-payment-summary-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "monthly-payment-summary-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "monthly-payment-summary-report"
@@ -637,23 +677,23 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.6"
-    - name: "daily-settlement-summary-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "daily-settlement-summary-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "daily-settlement-summary-report"
         version: "latest"
         snapshot: false
       properties:
-        artifact_version: "0.0.6"    
-    - name: "biller-daily-settlement"
-      runOrder: 7
+        artifact_version: "0.0.6"
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "biller-daily-settlement"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "biller-daily-settlement"
@@ -661,11 +701,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "update-biller-filenumber"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "update-biller-filenumber"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "update-biller-filenumber"
@@ -673,11 +713,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "update-rejected-payments"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "update-rejected-payments"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "update-rejected-payments"
@@ -685,11 +725,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "update-batch-operation"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "update-batch-operation"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "update-batch-operation"
@@ -697,11 +737,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.3"
-    - name: "save-report-location"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "save-report-location"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "save-report-location"
@@ -709,11 +749,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.3"
-    - name: "xml-converter-service"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "xml-converter-service"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "xml-converter-service"
@@ -721,11 +761,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
-    - name: "biller-refresh-report"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "biller-refresh-report"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "biller-refresh-report"
@@ -733,11 +773,11 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.3"
-    - name: "file-types-loader"
-      runOrder: 7
       dependsOn:
       - key: "ERPSPDJ"
         repo: "common-lambda"
+    - name: "file-types-loader"
+      runOrder: 7
       artifacts:
       - key: "ERPSIC"
         repo: "file-types-loader"
@@ -745,126 +785,141 @@ stages:
         snapshot: false
       properties:
         artifact_version: "0.0.4"
+      dependsOn:
+      - key: "ERPSPDJ"
+        repo: "common-lambda"
     - name: "file-reader-batch-fargate-task"
       runOrder: 8
-      dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-file-reader-batch"
       artifacts:
       - key: "ERPSIC"
         repo: "file-reader-fargate-task"
         version: "latest"
         snapshot: false
-    - name: "fi-billing-report-batch-fargate-task"
-      runOrder: 8 
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-fi-billing-report-batch"
+        repo: "aws-linux-app-file-reader-batch"
+    - name: "fi-billing-report-batch-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "fi-billing-report-fargate-task"
         version: "latest"
         snapshot: false
-    - name: "payment-advice-report-batch-fargate-batch"
-      runOrder: 8 
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-payment-advice-report-batch"
+        repo: "aws-linux-app-fi-billing-report-batch"
+    - name: "payment-advice-report-batch-fargate-batch"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "payment-advice-report-fargate-task"
         version: "latest"
         snapshot: false
-    - name: "daily-balance-transfers-report-fargate-task"
-      runOrder: 8 
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-daily-balance-transfers-report-batch"
+        repo: "aws-linux-app-payment-advice-report-batch"
+    - name: "daily-balance-transfers-report-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "daily-balance-transfers-report-fargate-task"
         version: "latest"
         snapshot: false
-    - name: "daily-eft-settlement-cpa-fargate-task"
-      runOrder: 8
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-daily-eft-settlement-cpa"
+        repo: "aws-linux-app-daily-balance-transfers-report-batch"
+    - name: "daily-eft-settlement-cpa-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "fargate-task"
         version: "latest"
         snapshot: false
-    - name: "daily-stats-loader-fargate-task"
-      runOrder: 8 
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-daily-stats-loader-batch"
+        repo: "aws-linux-app-daily-eft-settlement-cpa"
+    - name: "daily-stats-loader-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "daily-stats-loader-fargate-task"
         version: "latest"
         snapshot: false
-    - name: "load-history-from-payment-fargate-task"
-      runOrder: 8 
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-load-history-from-payment-batch"
+        repo: "aws-linux-app-daily-stats-loader-batch"
+    - name: "load-history-from-payment-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "load-history-from-payment-fargate-task"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-load-history-from-payment-batch"
     - name: "monthly-billing-volume-report-fargate-task"
       runOrder: 8
+      artifacts:
+      - key: "ERPSIC"
+        repo: "fargate-task"
+        version: "latest"
+        snapshot: false
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
         repo: "aws-linux-app-monthly-billing-volume-report-batch"
+    - name: "monthly-merchant-reports-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "fargate-task"
         version: "latest"
         snapshot: false
-    - name: "monthly-merchant-reports-fargate-task"
-      runOrder: 8
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
         repo: "aws-linux-app-monthly-merchant-reports-batch"
-      artifacts:
-      - key: "ERPSIC"
-        repo: "fargate-task"
-        version: "latest"
-        snapshot: false
     - name: "file-router-fargate-task"
       runOrder: 8
-      dependsOn:
-      - key: "ERPSEBJ"
-        repo: "aws-linux-app-file-router-batch"
       artifacts:
       - key: "ERPSIC"
         repo: "file-router-fargate-task"
         version: "latest"
         snapshot: false
-    - name: "email-router-batch-fargate-task"
-      runOrder: 8
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-email-router-batch"
+        repo: "aws-linux-app-file-router-batch"
+    - name: "email-router-batch-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "email-router-batch-fargate-task"
         version: "latest"
         snapshot: false
-    - name: "eod2-cleanup-fargate-task"
-      runOrder: 8
+      properties: null
       dependsOn:
       - key: "ERPSEBJ"
-        repo: "aws-linux-app-eod2-cleanup-batch"
+        repo: "aws-linux-app-email-router-batch"
+    - name: "eod2-cleanup-fargate-task"
+      runOrder: 8
       artifacts:
       - key: "ERPSIC"
         repo: "fargate-task"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn:
+      - key: "ERPSEBJ"
+        repo: "aws-linux-app-eod2-cleanup-batch"
     - name: "file-reader-workflow"
       runOrder: 9
       artifacts:
@@ -872,6 +927,8 @@ stages:
         repo: "file-reader-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "fi-billing-report-workflow"
       runOrder: 9
       artifacts:
@@ -879,6 +936,8 @@ stages:
         repo: "fi-billing-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "payment-advice-report-workflow"
       runOrder: 9
       artifacts:
@@ -886,6 +945,8 @@ stages:
         repo: "payment-advice-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-balance-transfers-report-workflow"
       runOrder: 9
       artifacts:
@@ -893,6 +954,8 @@ stages:
         repo: "daily-balance-transfers-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-merchant-settlement-reports-workflow"
       runOrder: 9
       artifacts:
@@ -900,6 +963,8 @@ stages:
         repo: "daily-merchant-settlement-reports-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-stats-loader-workflow"
       runOrder: 9
       artifacts:
@@ -907,6 +972,8 @@ stages:
         repo: "daily-stats-loader-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "load-history-from-payment-workflow"
       runOrder: 9
       artifacts:
@@ -914,6 +981,8 @@ stages:
         repo: "load-history-from-payment-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "monthly-billing-volume-report-workflow"
       runOrder: 9
       artifacts:
@@ -921,6 +990,8 @@ stages:
         repo: "monthly-billing-volume-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "monthly-merchant-reports-workflow"
       runOrder: 9
       artifacts:
@@ -928,6 +999,8 @@ stages:
         repo: "monthly-merchant-reports-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "xml-converter-service-workflow"
       runOrder: 9
       artifacts:
@@ -935,6 +1008,8 @@ stages:
         repo: "xml-converter-service-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "save-report-location-workflow"
       runOrder: 9
       artifacts:
@@ -942,6 +1017,8 @@ stages:
         repo: "save-report-location-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "biller-refresh-report-workflow"
       runOrder: 9
       artifacts:
@@ -949,6 +1026,8 @@ stages:
         repo: "biller-refresh-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "update-batch-operation-workflow"
       runOrder: 9
       artifacts:
@@ -956,6 +1035,8 @@ stages:
         repo: "update-batch-operation-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "eod2-cleanup-workflow"
       runOrder: 9
       artifacts:
@@ -963,6 +1044,8 @@ stages:
         repo: "eod2-cleanup-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "file-router-workflow"
       runOrder: 9
       artifacts:
@@ -970,6 +1053,8 @@ stages:
         repo: "file-router-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "email-router-workflow"
       runOrder: 9
       artifacts:
@@ -977,6 +1062,8 @@ stages:
         repo: "email-router-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "bmo-corporate-stat-report-workflow"
       runOrder: 10
       artifacts:
@@ -984,6 +1071,8 @@ stages:
         repo: "bmo-corporate-stat-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "pcb-stat-reports-workflow"
       runOrder: 10
       artifacts:
@@ -991,6 +1080,8 @@ stages:
         repo: "pcb-stat-reports-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "payment-advice-report-batch-workflow"
       runOrder: 10
       artifacts:
@@ -998,6 +1089,8 @@ stages:
         repo: "payment-advice-report-batch-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-eft-settlement-cpa-workflow"
       runOrder: 10
       artifacts:
@@ -1005,6 +1098,8 @@ stages:
         repo: "daily-eft-settlement-cpa-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "biller-billing-model-audit-report-workflow"
       runOrder: 10
       artifacts:
@@ -1012,6 +1107,8 @@ stages:
         repo: "biller-billing-model-audit-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "biller-group-audit-report-workflow"
       runOrder: 10
       artifacts:
@@ -1019,6 +1116,8 @@ stages:
         repo: "biller-group-audit-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "biller-non-volatile-audit-report-workflow"
       runOrder: 10
       artifacts:
@@ -1026,6 +1125,8 @@ stages:
         repo: "biller-non-volatile-audit-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-delivered-data-summary-report-workflow"
       runOrder: 10
       artifacts:
@@ -1033,6 +1134,8 @@ stages:
         repo: "daily-delivered-data-summary-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-gs06-numbers-report-workflow"
       runOrder: 10
       artifacts:
@@ -1040,6 +1143,8 @@ stages:
         repo: "daily-gs06-numbers-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-payment-exceptions-report-workflow"
       runOrder: 10
       artifacts:
@@ -1047,6 +1152,8 @@ stages:
         repo: "daily-payment-exceptions-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-settlement-summary-report-workflow"
       runOrder: 10
       artifacts:
@@ -1054,6 +1161,8 @@ stages:
         repo: "daily-settlement-summary-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "daily-stats-rollover-workflow"
       runOrder: 10
       artifacts:
@@ -1061,6 +1170,8 @@ stages:
         repo: "daily-stats-rollover-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "erps-eod2-reconciliation-workflow"
       runOrder: 10
       artifacts:
@@ -1068,6 +1179,8 @@ stages:
         repo: "erps-eod2-reconciliation-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "hsbc-cra-daily-edi-workflow"
       runOrder: 10
       artifacts:
@@ -1075,6 +1188,8 @@ stages:
         repo: "hsbc-cra-daily-edi-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "merchant-payment-count-report-workflow"
       runOrder: 10
       artifacts:
@@ -1082,6 +1197,8 @@ stages:
         repo: "merchant-payment-count-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "monthly-payment-summary-report-workflow"
       runOrder: 10
       artifacts:
@@ -1089,6 +1206,8 @@ stages:
         repo: "monthly-payment-summary-report-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "biller-daily-settlement-workflow"
       runOrder: 10
       artifacts:
@@ -1096,6 +1215,8 @@ stages:
         repo: "biller-daily-settlement-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "update-biller-filenumber-workflow"
       runOrder: 10
       artifacts:
@@ -1103,6 +1224,8 @@ stages:
         repo: "update-biller-filenumber-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "update-rejected-payments-workflow"
       runOrder: 10
       artifacts:
@@ -1110,6 +1233,8 @@ stages:
         repo: "update-rejected-payments-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "hsbc-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1117,6 +1242,8 @@ stages:
         repo: "hsbc-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "bns-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1124,6 +1251,8 @@ stages:
         repo: "bns-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "boa-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1131,6 +1260,8 @@ stages:
         repo: "boa-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "mcu-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1138,6 +1269,8 @@ stages:
         repo: "mcu-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "pcb-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1145,6 +1278,8 @@ stages:
         repo: "pcb-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "tfx-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1152,6 +1287,8 @@ stages:
         repo: "tfx-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "cibc-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1159,6 +1296,8 @@ stages:
         repo: "cibc-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "citi-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1166,6 +1305,8 @@ stages:
         repo: "citi-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "jpmc-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1173,6 +1314,8 @@ stages:
         repo: "jpmc-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "motus-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1180,6 +1323,8 @@ stages:
         repo: "motus-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "manulife-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1187,6 +1332,8 @@ stages:
         repo: "manulife-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "tangerine-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1194,6 +1341,8 @@ stages:
         repo: "tangerine-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "bmo-retail-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1201,6 +1350,8 @@ stages:
         repo: "bmo-retail-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
     - name: "bmo-corporate-eod2-workflow"
       runOrder: 11
       artifacts:
@@ -1208,3 +1359,6 @@ stages:
         repo: "bmo-corporate-eod2-workflow"
         version: "latest"
         snapshot: false
+      properties: null
+      dependsOn: []
+    artifacts: null
